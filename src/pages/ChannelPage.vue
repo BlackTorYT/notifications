@@ -1,18 +1,6 @@
 ﻿<template>
   <div>
-    <header class="header">
-      <div class="header__nav">
-        <nav class="nav">
-          <ul class="nav__list">
-            <li class="nav__item" id="nav__item_left"><img class="burger" src="./assets/burger.png" alt="menu">Панель управления</li>
-            <div class="nav__item__notification">
-              <li class="nav__item"><img class="notification__img" src="./assets/burger.png" alt="notification"></li>
-              <li class="nav__item" id="nav__item__exit"><img class="exit__img" src="./assets/burger.png" alt="exit">Выйти из аккаунта</li>
-            </div>
-          </ul>
-        </nav>
-      </div>
-    </header>
+
     <channel-form @create="createChannel"/>
     <channel-list v-bind:channels="channels" @remove="removeChannel"/>
 

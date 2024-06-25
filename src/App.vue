@@ -13,8 +13,7 @@
         </nav>
       </div>
     </header>
-    <!-- <channel-form @create="createChannel"/>
-    <channel-list v-bind:channels="channels" @remove="removeChannel"/> -->
+
     <router-view></router-view>
 
   </div>

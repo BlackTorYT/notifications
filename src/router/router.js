@@ -1,10 +1,15 @@
-﻿import Main from "@/pages/Main.vue"
+﻿import MainPage from "@/pages/MainPage.vue"
 import {createRouter, createWebHistory} from "vue-router";
+import ChannelPage from "@/pages/ChannelPage.vue"
 
 const routes = [
   {
     path: '/',
-    component: Main
+    component: MainPage
+  },
+  {
+    path: '/channels',
+    component: ChannelPage
   }
 ]
 
