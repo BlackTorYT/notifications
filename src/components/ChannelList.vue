@@ -1,10 +1,11 @@
 ﻿<template>
     <div class="wrapper__channels">
       <h1>Каналы отправки уведомлений</h1>
+      <button @click="removeSelectedChannels">Удалить</button>
       <table>
         <thead>
           <tr>
-            <th class="channel__checkbox"><input type="checkbox"></th>
+            <th class="channel__checkbox"><input type="checkbox" @change="toggleAll"></th>
             <th class="channel__id">ID</th>
             <th class="channel__name">Название</th>
             <th class="channel__code">Код</th>
@@ -14,7 +15,10 @@
             <th class="channel__action">Действия</th>
           </tr>
         </thead>
-        <channel-item v-for="channel in channels" v-bind:channel="channel" v-bind:key="channel.id" @remove="$emit('remove', channel)"></channel-item>
+        <channel-item v-for="channel in channels" v-bind:channel="channel" v-bind:key="channel.id" 
+          @remove="$emit('remove', channel)" :selected="selectedChannels.includes(channel.id)"
+          @toggle="toggleSelection">
+        </channel-item>
       </table>
     </div>
 </template>
@@ -28,6 +32,31 @@ export default {
     channels: {
       type: Array,
       required: true
+    }
+  },
+  data() {
+    return {
+      selectedChannels: []
+    };
+  },
+  methods: {
+    toggleSelection(channelId) {
+      if (this.selectedChannels.includes(channelId)) {
+        this.selectedChannels = this.selectedChannels.filter(id => id !== channelId);
+      } else {
+        this.selectedChannels.push(channelId);
+      }
+    },
+    toggleAll(event) {
+      if (event.target.checked) {
+        this.selectedChannels = this.channels.map(channel => channel.id);
+      } else {
+        this.selectedChannels = [];
+      }
+    },
+    removeSelectedChannels() {
+      this.$emit('removeSelected', this.selectedChannels);
+      this.selectedChannels = [];
     }
   }
 };

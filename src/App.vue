@@ -27,22 +27,22 @@ export default {
     ChannelList, ChannelForm
   },
   name: 'App',
-  data() {
-    return {
-      channels: [
-        {id: 1, title: "Telegram Bot", code: "TELEGRAM_BOT", mailing: "TELEGRAM_BOT", disc: "Тг бот", status: true},
-        {id: 2, title: "MTS", code: "MTS_GW", mailing: "SMS", disc: "", status: true}
-      ]
-    };
-  },
-  methods: {
-    createChannel(channel) {
-      this.channels.push(channel);
-    },
-    removeChannel(channel) {
-      this.channels = this.channels.filter(c => c.id !== channel.id) //в результат. массив попадают посты, все проме того, который мы пытаемся удалить
-    }
-  }
+  // data() {
+  //   return {
+  //     channels: [
+  //       {id: 1, title: "Telegram Bot", code: "TELEGRAM_BOT", mailing: "TELEGRAM_BOT", disc: "Тг бот", status: true},
+  //       {id: 2, title: "MTS", code: "MTS_GW", mailing: "SMS", disc: "", status: true}
+  //     ]
+  //   };
+  // },
+  // methods: {
+  //   createChannel(channel) {
+  //     this.channels.push(channel);
+  //   },
+  //   removeChannel(channel) {
+  //     this.channels = this.channels.filter(c => c.id !== channel.id) //в результат. массив попадают посты, все проме того, который мы пытаемся удалить
+  //   }
+  // }
 };
 </script>
 

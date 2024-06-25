@@ -2,7 +2,7 @@
   <div>
 
     <channel-form @create="createChannel"/>
-    <channel-list v-bind:channels="channels" @remove="removeChannel"/>
+    <channel-list v-bind:channels="channels" @remove="removeChannel" @removeSelected="removeSelectedChannel"/>
 
 
   </div>
@@ -30,7 +30,10 @@ export default {
     },
     removeChannel(channel) {
       this.channels = this.channels.filter(c => c.id !== channel.id) //в результат. массив попадают посты, все проме того, который мы пытаемся удалить
-    }
+    },
+    removeSelectedChannel(selectedChannelIds) {
+    this.channels = this.channels.filter(channel => !selectedChannelIds.includes(channel.id));
+  }
   }
 };
 </script>

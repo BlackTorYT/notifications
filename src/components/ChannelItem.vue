@@ -1,7 +1,7 @@
 ﻿<template>
         <tbody>
           <tr class="channel">
-            <td><input type="checkbox"></td>
+            <td><input type="checkbox" :checked="selected" @change="toggle"></td>
             <td>{{ channel.id }}</td>
             <td>{{ channel.title }}</td>
             <td>{{ channel.code }}</td>
@@ -27,9 +27,19 @@ export default {
     channel: {
     type: Object,
     required: true
+    },
+    selected: {
+      type: Boolean,
+      required: true
     } 
+  },
+  methods: {
+    toggle() {
+      this.$emit('toggle', this.channel.id);
+    }
   }
 };
+
 </script>
 
 <style scoped>
