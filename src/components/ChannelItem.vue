@@ -7,7 +7,7 @@
             <td>{{ channel.code }}</td>
             <td>{{ channel.mailing }}</td>
             <td>{{ channel.disc }}</td>
-            <td>{{ channel.status }}</td>
+            <td>{{ statusText }}</td>
             <td>
               <div>Изменить</div>
               <div class="channel__delete" @click="$emit('remove', channel)"><my-button><img src="../assets/trash.png" alt="">Удалить</my-button></div>
@@ -32,6 +32,11 @@ export default {
       type: Boolean,
       required: true
     } 
+  },
+  computed: {
+    statusText() {
+      return this.channel.status ? 'Включен' : 'Отключен';
+    }
   },
   methods: {
     toggle() {

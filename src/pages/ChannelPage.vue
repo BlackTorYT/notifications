@@ -1,7 +1,7 @@
 ﻿<template>
   <div>
 
-    <channel-form @create="createChannel"/>
+    <channel-form v-bind:channels="channels" @create="createChannel"/>
     <channel-list v-bind:channels="channels" @remove="removeChannel" @removeSelected="removeSelectedChannel"/>
 
 

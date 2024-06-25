@@ -6,10 +6,21 @@
       </div>
       <div class="name">Название <my-input type="text" class="input" v-model="channel.title"/></div>
       <div class="uniqueCode">Уникальный код поля <my-input type="text" class="input" v-model="channel.code"/></div>
-      <div class="handler">Обработчик <my-input type="text" class="input" v-model="channel.mailing"/></div>
+      <div class="mailing">Обработчик 
+      <select class="input" v-model="channel.mailing">
+        <option value="Telegram Bot">Telegram Bot</option>
+        <option value="SMS">SMS</option>
+      </select>
+    </div>
       <div class="disc">Описание <my-input type="text" class="input" v-model="channel.disc"/></div>
       <div class="json">Настройки JSON <my-input type="text" class="input" v-model="channel.json"/></div>
-      <div class="active">Канал активен? <my-input type="text" class="input" v-model="channel.status"/></div>
+      <div class="active">
+      Канал активен?
+      <select class="input" v-model="channel.status">
+        <option :value="true">Да</option>
+        <option :value="false">Нет</option>
+      </select>
+    </div>
       <button class="save__btn" @click="createChannel">Сохранить</button>
     </form>
 </template>
@@ -18,22 +29,35 @@
 // Компонент для формы по созданию каналов
 
 export default {
-
+  props: {
+    channels: {
+      type: Array,
+      required: true
+    }
+  },
   data() {
     return {
       channel: {
       title: '',
       code: '',
-      mailing: '',
+      mailing: 'Telegram Bot',
       disc: '',
-      json: '',
-      status: ''
+      json: '{ "telegram_token":""}',
+      status: true
       }
     }
   },
   methods: {
+    getNextId() {
+      if (this.channels.length === 0) {
+        return 1;
+      }
+      const maxId = Math.max(...this.channels.map(channel => channel.id));
+      return maxId + 1;
+    },
     createChannel() {
-      const newChannel = { ...this.channel, id: Date.now() };
+      const newChannelId = this.getNextId();
+      const newChannel = { ...this.channel, id: newChannelId };
       this.$emit('create', newChannel);
       this.resetForm();
     },
@@ -44,7 +68,7 @@ export default {
         mailing: '',
         disc: '',
         json: '',
-        status: ''
+        status: true
       };
     }
   }
