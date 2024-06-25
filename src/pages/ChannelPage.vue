@@ -1,5 +1,5 @@
-<template>
-  <div class="app">
+﻿<template>
+  <div>
     <header class="header">
       <div class="header__nav">
         <nav class="nav">
@@ -13,9 +13,9 @@
         </nav>
       </div>
     </header>
-    <!-- <channel-form @create="createChannel"/>
-    <channel-list v-bind:channels="channels" @remove="removeChannel"/> -->
-    <router-view></router-view>
+    <channel-form @create="createChannel"/>
+    <channel-list v-bind:channels="channels" @remove="removeChannel"/>
+
 
   </div>
 </template>
@@ -48,45 +48,7 @@ export default {
 </script>
 
 <style>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
 
-ul, ul li {
-  list-style: none;
-}
-
-img {
-  height: 14px;
-  width: 14px;
-}
-
-body {
-  background-color: rgb(224, 224, 224);
-}
-
-table {
-  width: 100%;
-  border-top: 7px solid rgb(218, 218, 218);
-  border-collapse: collapse;
-  text-align: center;
-  margin-bottom: 20px;
-  border: 1px solid #dddddd;
-}
-
-td {
-  text-align: left;
-  padding: 10px;
-  border: 1px solid rgb(218, 218, 218);
-}
-
-th {
-  text-align: center;
-  padding: 10px;
-  border: 1px solid rgb(218, 218, 218);
-}
 
 .header {
   height: 56px;
