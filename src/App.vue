@@ -20,12 +20,12 @@
 </template>
 
 <script>
-import ChannelList from "@/components/ChannelList.vue";
-import ChannelForm from "@/components/ChannelForm.vue";
+// import ChannelList from "@/components/ChannelList.vue";
+// import ChannelForm from "@/components/ChannelForm.vue";
 export default {
-  components: {
-    ChannelList, ChannelForm
-  },
+  // components: {
+  //   ChannelList, ChannelForm
+  // },
   name: 'App',
   // data() {
   //   return {
