@@ -1,39 +1,32 @@
 ﻿<template>
   <div>
-
-    <channel-form v-bind:channels="channels" @create="createChannel"/>
-    <channel-list v-bind:channels="channels" @remove="removeChannel" @removeSelected="removeSelectedChannel"/>
-
-
+    <router-link to="/channels/create">
+      <button>Создать канал</button>
+    </router-link>
+    <channel-list :channels="channels" @remove="removeChannel" @removeSelected="removeSelectedChannel" />
   </div>
 </template>
 
 <script>
 import ChannelList from "@/components/ChannelList.vue";
-import ChannelForm from "@/components/ChannelForm.vue";
+
 export default {
   components: {
-    ChannelList, ChannelForm
+    ChannelList
   },
-  name: 'App',
-  data() {
-    return {
-      channels: [
-        {id: 1, title: "Telegram Bot", code: "TELEGRAM_BOT", mailing: "TELEGRAM_BOT", disc: "Тг бот", status: true},
-        {id: 2, title: "MTS", code: "MTS_GW", mailing: "SMS", disc: "", status: true}
-      ]
-    };
+  props: {
+    channels: {
+      type: Array,
+      required: true
+    }
   },
   methods: {
-    createChannel(channel) {
-      this.channels.push(channel);
-    },
     removeChannel(channel) {
-      this.channels = this.channels.filter(c => c.id !== channel.id) //в результат. массив попадают посты, все проме того, который мы пытаемся удалить
+      this.$emit('removeChannel', channel);
     },
     removeSelectedChannel(selectedChannelIds) {
-    this.channels = this.channels.filter(channel => !selectedChannelIds.includes(channel.id));
-  }
+      this.$emit('removeSelectedChannel', selectedChannelIds);
+    }
   }
 };
 </script>
