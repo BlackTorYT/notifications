@@ -1,6 +1,6 @@
 ﻿<template>
   <div>
-    <channel-form :channels="channels" @create="handleCreateChannel" />
+    <channel-form :channels="channels" @create="handleCreateChannel"/>
   </div>
 </template>
 

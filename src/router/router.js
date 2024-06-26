@@ -2,6 +2,7 @@
 import MainPage from '@/pages/MainPage.vue';
 import ChannelPage from '@/pages/ChannelPage.vue';
 import ChannelFormPage from '@/pages/ChannelFormPage.vue';
+import ChannelEditPage from '@/pages/ChannelEditPage.vue'; // новая страница для редактирования
 
 const routes = [
   {
@@ -15,6 +16,11 @@ const routes = [
   {
     path: '/channels/create',
     component: ChannelFormPage,
+    props: true
+  },
+  {
+    path: '/channels/edit/:id',
+    component: ChannelEditPage,
     props: true
   }
 ];

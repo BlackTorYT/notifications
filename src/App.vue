@@ -20,7 +20,9 @@
       </div>
     </header>
 
-    <router-view :channels="channels" @createChannel="createChannel" @removeChannel="removeChannel" @removeSelectedChannel="removeSelectedChannel"></router-view>
+    <router-view :channels="channels" @updateChannel="updateChannel" 
+    @createChannel="createChannel"
+    @removeChannel="removeChannel" @removeSelectedChannel="removeSelectedChannel"></router-view>
   </div>
 </template>
 
@@ -44,6 +46,12 @@ export default {
     },
     removeSelectedChannel(selectedChannelIds) {
       this.channels = this.channels.filter(channel => !selectedChannelIds.includes(channel.id));
+    },
+    updateChannel(updatedChannel) {
+      const index = this.channels.findIndex(channel => channel.id === updatedChannel.id);
+      if (index !== -1) {
+        this.channels.splice(index, 1, updatedChannel);
+      }
     }
   }
 };

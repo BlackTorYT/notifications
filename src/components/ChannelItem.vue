@@ -9,7 +9,9 @@
             <td>{{ channel.disc }}</td>
             <td>{{ statusText }}</td>
             <td>
-              <div>Изменить</div>
+              <router-link :to="'/channels/edit/' + channel.id">
+                <button>Изменить</button>
+              </router-link>
               <div class="channel__delete" @click="$emit('remove', channel)"><my-button><img src="../assets/trash.png" alt="">Удалить</my-button></div>
             </td>
           </tr>

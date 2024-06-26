@@ -2,6 +2,9 @@
     <div class="wrapper__channels">
       <h1>Каналы отправки уведомлений</h1>
       <button @click="removeSelectedChannels">Удалить</button>
+      <router-link to="/channels/create">
+      <button>Создать канал</button>
+      </router-link>
       <table>
         <thead>
           <tr>

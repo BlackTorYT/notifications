@@ -1,8 +1,5 @@
 ﻿<template>
   <div>
-    <router-link to="/channels/create">
-      <button>Создать канал</button>
-    </router-link>
     <channel-list :channels="channels" @remove="removeChannel" @removeSelected="removeSelectedChannel" />
   </div>
 </template>
