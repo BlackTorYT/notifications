@@ -5,7 +5,8 @@
         <nav class="nav">
           <ul class="nav__list">
             <li class="nav__item" id="nav__item_left">
-              <img class="burger" src="./assets/burger.png" alt="menu">Панель управления
+              <img class="burger" src="./assets/burger.png" alt="menu">
+              <router-link to="./">Панель управления</router-link>
             </li>
             <div class="nav__item__notification">
               <li class="nav__item">
@@ -20,9 +21,18 @@
       </div>
     </header>
 
-    <router-view :channels="channels" @updateChannel="updateChannel" 
-    @createChannel="createChannel"
-    @removeChannel="removeChannel" @removeSelectedChannel="removeSelectedChannel"></router-view>
+    <router-view 
+      :channels="channels" 
+      @updateChannel="updateChannel" 
+      @createChannel="createChannel"
+      @removeChannel="removeChannel" 
+      @removeSelectedChannel="removeSelectedChannel" 
+      :subscribers="subscribers" 
+      @createSubscriber="createSubscriber"
+      @removeSubscriber="removeSubscriber" 
+      @removeSelectedSubscriber="removeSelectedSubscriber" 
+      @updateSubscriber="updateSubscriber" 
+    ></router-view>
   </div>
 </template>
 
@@ -34,6 +44,10 @@ export default {
       channels: [
         { id: 1, title: "Telegram Bot", code: "TELEGRAM_BOT", mailing: "TELEGRAM_BOT", disc: "Тг бот", status: true },
         { id: 2, title: "MTS", code: "MTS_GW", mailing: "SMS", disc: "", status: true }
+      ],
+      subscribers: [
+        { id: 1, name: "Кирилл", phone: "+79422313123", username: "apapa", tg: "13123", note: "", phoneConfirmed: true, status: true },
+        { id: 2, name: "Иван", phone: "+79116241196", username: "marara", tg: "13111", note: "", phoneConfirmed: true, status: true }
       ]
     };
   },
@@ -52,10 +66,26 @@ export default {
       if (index !== -1) {
         this.channels.splice(index, 1, updatedChannel);
       }
+    },
+    createSubscriber(subscriber) {
+      this.subscribers.push(subscriber);
+    },
+    removeSubscriber(subscriber) {
+      this.subscribers = this.subscribers.filter(s => s.id !== subscriber.id);
+    },
+    removeSelectedSubscriber(selectedSubscriberIds) {
+      this.subscribers = this.subscribers.filter(subscriber => !selectedSubscriberIds.includes(subscriber.id));
+    },
+    updateSubscriber(updatedSubscriber) {
+      const index = this.subscribers.findIndex(subscriber => subscriber.id === updatedSubscriber.id);
+      if (index !== -1) {
+        this.subscribers.splice(index, 1, updatedSubscriber);
+      }
     }
   }
 };
 </script>
+
 
 <style>
 * {

@@ -2,7 +2,10 @@
 import MainPage from '@/pages/MainPage.vue';
 import ChannelPage from '@/pages/ChannelPage.vue';
 import ChannelFormPage from '@/pages/ChannelFormPage.vue';
-import ChannelEditPage from '@/pages/ChannelEditPage.vue'; // новая страница для редактирования
+import ChannelEditPage from '@/pages/ChannelEditPage.vue'; 
+import SubscriberPage from '@/pages/SubscriberPage.vue';
+import SubscriberFormPage from '@/pages/SubscriberFormPage.vue';
+import SubscriberEditPage from '@/pages/SubscriberEditPage.vue';
 
 const routes = [
   {
@@ -21,6 +24,20 @@ const routes = [
   {
     path: '/channels/edit/:id',
     component: ChannelEditPage,
+    props: true
+  },
+  {
+    path: '/subscribers',
+    component: SubscriberPage
+  },
+  {
+    path: '/subscribers/create',
+    component: SubscriberFormPage,
+    props: true
+  },
+  {
+    path: '/subscribers/edit/:id',
+    component: SubscriberEditPage,
     props: true
   }
 ];
