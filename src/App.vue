@@ -31,7 +31,12 @@
       @createSubscriber="createSubscriber"
       @removeSubscriber="removeSubscriber" 
       @removeSelectedSubscriber="removeSelectedSubscriber" 
-      @updateSubscriber="updateSubscriber" 
+      @updateSubscriber="updateSubscriber"
+      :subs="subs" 
+      @createSub="createSub"
+      @removeSub="removeSub" 
+      @removeSelectedSub="removeSelectedSub" 
+      @updateSub="updateSub" 
     ></router-view>
   </div>
 </template>
@@ -48,6 +53,10 @@ export default {
       subscribers: [
         { id: 1, name: "Кирилл", phone: "+79422313123", username: "apapa", tg: "13123", note: "", phoneConfirmed: true, status: true },
         { id: 2, name: "Иван", phone: "+79116241196", username: "marara", tg: "13111", note: "", phoneConfirmed: true, status: true }
+      ],
+      subs: [
+        { id: 1, subscriber: "Кирилл", type: "Заверешение обслуживания", channel: "Telegram Bot", status: true },
+        { id: 2, subscriber: "Иван", type: "Начало обслуживаня объекта очереди", channel: "Telegram Bot", status: true }
       ]
     };
   },
@@ -80,6 +89,21 @@ export default {
       const index = this.subscribers.findIndex(subscriber => subscriber.id === updatedSubscriber.id);
       if (index !== -1) {
         this.subscribers.splice(index, 1, updatedSubscriber);
+      }
+    },
+    createSub(sub) {
+      this.subs.push(sub);
+    },
+    removeSub(sub) {
+      this.subs = this.subs.filter(s => s.id !== sub.id);
+    },
+    removeSelectedSub(selectedSubIds) {
+      this.subs = this.subs.filter(sub => !selectedSubIds.includes(sub.id));
+    },
+    updateSub(updatedSub) {
+      const index = this.subs.findIndex(sub => sub.id === updatedSub.id);
+      if (index !== -1) {
+        this.subs.splice(index, 1, updatedSub);
       }
     }
   }
