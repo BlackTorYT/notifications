@@ -1,26 +1,72 @@
 <template>
+  <my-burger v-model:show="burgerVisible">
+    <!-- <router-link to="/" @click="noShowBurger">Панель управления</router-link> -->
+    <button  @click="$router.push('/')" class="main__title" >
+        <div @click="noShowBurger">
+        Панель управления
+        </div>
+      </button>
+    <div class="main__content">
+      <!-- <router-link to="/channels" class="main__item" @click="noShowBurger">Каналы отправки сообщений</router-link> -->
+      <button  @click="$router.push('/channels')" class="main__item" >
+        <div @click="noShowBurger">
+        Каналы отправки сообщений
+        </div>
+      </button>
+      <!-- <router-link to="/subscribers" class="main__item" @click="noShowBurger">Каналы подписчиков</router-link> -->
+      <button  @click="$router.push('/subscribers')" class="main__item" >
+        <div @click="noShowBurger">
+        Каналы подписчиков
+        </div>
+      </button>
+      <!-- <router-link to="/subs" class="main__item" @click="noShowBurger">Управление подписками</router-link> -->
+      <button  @click="$router.push('/subs')" class="main__item" >
+        <div @click="noShowBurger">
+          Управление подписками
+        </div>
+      </button>
+      <!-- <router-link to="/patterns" class="main__item" @click="noShowBurger">Шаблоны сообщений</router-link> -->
+      <button  @click="$router.push('/patterns')" class="main__item" >
+        <div @click="noShowBurger">
+          Шаблоны сообщений
+        </div>
+      </button>
+      <!-- <router-link to="/logs" class="main__item" @click="noShowBurger">Журнал рассылки уведомлений</router-link> -->
+      <button  @click="$router.push('/logs')" class="main__item" >
+        <div @click="noShowBurger">
+          Журнал рассылки уведомлений
+        </div>
+      </button>
+    </div>
+  </my-burger>
   <div class="app">
     <header class="header">
       <div class="header__nav">
         <nav class="nav">
           <ul class="nav__list">
             <li class="nav__item" id="nav__item_left">
-              <img class="burger" src="./assets/burger.png" alt="menu">
-              <router-link to="./">Панель управления</router-link>
+              <button @click="showBurger" class="burger__menu__button">
+                <img class="burger" src="./assets/burger.png" alt="menu">
+              </button>
+              <button @click="$router.push('/')" class="nav__panel">
+                Панель управления
+              </button>
             </li>
             <div class="nav__item__notification">
               <li class="nav__item">
-                <img class="notification__img" src="./assets/burger.png" alt="notification">
+                <button @click="showNotice" class="notification__button"><img class="notification__img" src="./assets/notification.png" alt="notification"></button>
               </li>
-              <li class="nav__item" id="nav__item__exit">
-                <img class="exit__img" src="./assets/burger.png" alt="exit">Выйти из аккаунта
+              <li class="nav__item" id="nav__item__exit" @click="handleLogout">
+                <button class="logout__button"><img class="exit__img" src="./assets/exit.png" alt="exit"><span class="exit__text">Выйти из аккаунта</span></button>
               </li>
             </div>
           </ul>
         </nav>
       </div>
     </header>
-
+    <my-notice v-model:show="noticeVisible" :notices="notices" :notice="notice">
+      <notice-list :notices="notices"/> 
+    </my-notice>
     <router-view 
       :channels="channels" 
       @updateChannel="updateChannel" 
@@ -36,13 +82,24 @@
       @createSub="createSub"
       @removeSub="removeSub" 
       @removeSelectedSub="removeSelectedSub" 
-      @updateSub="updateSub" 
+      @updateSub="updateSub"
+      :patterns="patterns" 
+      @createPattern="createPattern"
+      @removePattern="removePattern" 
+      @removeSelectedPattern="removeSelectedPattern" 
+      @updatePattern="updatePattern"
+      :logs="logs" 
+      @removeSelectedLog="removeSelectedLog"
+      @testPattern="createLog"
     ></router-view>
   </div>
 </template>
 
 <script>
+import { mapGetters, mapActions} from 'vuex';
+import NoticeList from "@/components/NoticeList.vue";
 export default {
+  components: {NoticeList},
   name: 'App',
   data() {
     return {
@@ -55,12 +112,46 @@ export default {
         { id: 2, name: "Иван", phone: "+79116241196", username: "marara", tg: "13111", note: "", phoneConfirmed: true, status: true }
       ],
       subs: [
-        { id: 1, subscriber: "Кирилл", type: "Заверешение обслуживания", channel: "Telegram Bot", status: true },
-        { id: 2, subscriber: "Иван", type: "Начало обслуживаня объекта очереди", channel: "Telegram Bot", status: true }
-      ]
+        { id: 1, subscriber: "Кирилл", type: "Завершение обслуживания", channel: "Telegram Bot", status: true },
+        { id: 2, subscriber: "Иван", type: "Начало обслуживания объекта очереди", channel: "Telegram Bot", status: true }
+      ],
+      patterns: [
+        { id: 1, title: "Вызов объекта очереди для обслуживания", code: "call_for_processing", pattern: "test", type: "Вызван следующий объект очереди"},
+        { id: 2, title: "Завершения обслуживания", code: "end_processing", pattern: "test", type: "Вызван следующий объект очереди"}
+      ],
+      logs: [
+        { id: 1, info: "INFO INFO INFO INFO INFO INFO INFO INFO", message: "call_for_processing", status: "test", time: "Вызван следующий объект очереди", config: ""},
+        { id: 2, info: "A AAINFO INFO INFO INFO INFO INFO INFO INFO", message: "call_for_processing", status: "Ошибка", time: "Вызван следующий объект очереди", config: ""},
+        { id: 3, info: "CCCCCC AAINFO INFO INFO INFO INFO INFO INFO INFO", message: "call_for_processing", status: "test", time: "Вызван следующий объект очереди", config: ""},
+        { id: 4, info: "BBBB AAINFO INFO INFO INFO INFO INFO INFO INFO", message: "call_for_processing", status: "Отправлено", time: "Вызван следующий объект очереди", config: ""}
+      ],
+      notices: [
+        {id: 1, title: "Тест", body: "Это тестовое уведомлениеЭто тестовое уведомлениеЭто тестовое уведомление"},
+        {id: 2, title: "Тест", body: "Это тестовое уведомлениеЭто тестовое уведомлениеЭто тестовое уведомление"},
+        {id: 3, title: "Тест", body: "Это тестовое уведомлениеЭто тестовое уведомлениеЭто тестовое уведомление"},
+        {id: 4, title: "Тест", body: "Это тестовое уведомлениеЭто тестовое уведомлениеЭто тестовое уведомление"},
+        {id: 5, title: "Тест", body: "Это тестовое уведомлениеЭто тестовое уведомлениеЭто тестовое уведомление"},
+        {id: 6, title: "Тест", body: "Это тестовое уведомлениеЭто тестовое уведомлениеЭто тестовое уведомление"},
+        {id: 7, title: "Тест", body: "Это тестовое уведомлениеЭто тестовое уведомлениеЭто тестовое уведомление"},
+        {id: 8, title: "Тест", body: "Это тестовое уведомлениеЭто тестовое уведомлениеЭто тестовое уведомление"},
+        {id: 9, title: "Тест", body: "Это тестовое уведомлениеЭто тестовое уведомлениеЭто тестовое уведомление"},
+      ],
+      burgerVisible: false,
+      noticeVisible: false
     };
   },
+  computed: {
+    ...mapGetters(['isAuthenticated'])
+  },
   methods: {
+    showNotice() {
+        this.noticeVisible = true;
+      },
+    createLog(log) {
+      console.log('App received testPattern event with log:', log);
+      this.logs.push(log);
+    },
+    ...mapActions(['login', 'logout']),
     createChannel(channel) {
       this.channels.push(channel);
     },
@@ -105,6 +196,35 @@ export default {
       if (index !== -1) {
         this.subs.splice(index, 1, updatedSub);
       }
+    },
+    createPattern(pattern) {
+      this.patterns.push(pattern);
+    },
+    removePattern(pattern) {
+      this.patterns = this.patterns.filter(p => p.id !== pattern.id);
+    },
+    removeSelectedPattern(selectedPatternIds) {
+      this.patterns = this.patterns.filter(pattern => !selectedPatternIds.includes(pattern.id));
+    },
+    updatePattern(updatedPattern) {
+      const index = this.patterns.findIndex(pattern => pattern.id === updatedPattern.id);
+      if (index !== -1) {
+        this.patterns.splice(index, 1, updatedPattern);
+      }
+    },
+    removeSelectedLog(selectedLogIds) {
+      this.logs = this.logs.filter(log => !selectedLogIds.includes(log.id));
+    },
+    showBurger() {
+      this.burgerVisible = true;
+    },
+    noShowBurger() {
+      this.burgerVisible = false;
+    },
+    handleLogout() {
+      this.logout().then(() => {
+        this.$router.push('/login');
+      });
     }
   }
 };
@@ -123,12 +243,12 @@ ul, ul li {
 }
 
 img {
-  height: 14px;
-  width: 14px;
+  height: 17px;
+  width: 16px;
 }
 
 body {
-  background-color: rgb(224, 224, 224);
+  background-color: rgb(241, 241, 241);
 }
 
 table {
@@ -145,7 +265,6 @@ td {
   padding: 10px;
   border: 1px solid rgb(218, 218, 218);
 }
-
 th {
   text-align: center;
   padding: 10px;
@@ -183,7 +302,116 @@ th {
   width: 200px;
 }
 
+.main__content {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
 
+.burger__menu__button {
+  background: none;
+	color: inherit;
+	border: none;
+	padding: 0;
+	font: inherit;
+	cursor: pointer;
+	outline: inherit
+  
+}
 
+.logout__button {
+  background: none;
+	color: inherit;
+	border: none;
+	padding: 0;
+	font: inherit;
+	cursor: pointer;
+	outline: inherit;
+}
 
+.notification__button {
+  background: none;
+	color: inherit;
+	border: none;
+	padding: 0;
+	font: inherit;
+	cursor: pointer;
+	outline: inherit;
+  margin-top: 1px;
+}
+
+.exit__img {
+  margin-top: 1px;
+}
+
+.exit__text {
+  margin-bottom: 1px;
+}
+
+.nav__panel{
+  background: none;
+	color: inherit;
+	border: none;
+	padding: 0;
+	font: inherit;
+	cursor: pointer;
+	outline: inherit;
+}
+
+.main__item {
+  border: none;
+	padding: 0;
+	font: inherit;
+	cursor: pointer;
+	outline: inherit;
+  border-radius: 3px;
+  display: flex;
+  /* align-items: center; */
+  /* justify-content: center; */
+  background: none;
+  background: rgb(6, 98, 197);
+	color: rgb(255, 255, 255);
+  border: none;
+	padding: 0;
+	font: inherit;
+	cursor: pointer;
+	outline: inherit;
+  border-radius: 3px;
+  width: 260px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.main__item:hover {
+  background-color: #1366d6;
+  box-shadow: rgba(0, 0, 0, .05) 0 5px 30px, rgba(0, 0, 0, .05) 0 1px 4px;
+  opacity: 1;
+  transform: translateY(0);
+  transition-duration: .35s;
+}
+
+.main__title {
+  border: none;
+	padding: 0;
+	font: inherit;
+	cursor: pointer;
+	outline: inherit;
+  border-radius: 3px;
+  display: flex;
+  background: none;
+  margin-bottom: 20px;
+}
+
+.menu__content a {
+  border: none;
+	padding: 0;
+	font: inherit;
+	cursor: pointer;
+	outline: inherit;
+  border-radius: 3px;
+  display: flex;
+  
+}
 </style>

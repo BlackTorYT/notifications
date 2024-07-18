@@ -13,7 +13,7 @@ export default {
 
 <style scoped>
 
-button:hover {
+/* button:hover {
 
     display: flex;
     justify-content: center;
@@ -21,6 +21,6 @@ button:hover {
     padding: 6px 0px 6px 0px;
     border-radius: 30px;
     background: rgb(214, 25, 25);
-}
+} */
 
 </style>

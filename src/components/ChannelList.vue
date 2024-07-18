@@ -1,10 +1,15 @@
 ﻿<template>
     <div class="wrapper__channels">
-      <h1>Каналы отправки уведомлений</h1>
-      <button @click="removeSelectedChannels">Удалить</button>
-      <router-link to="/channels/create">
-      <button>Создать канал</button>
-      </router-link>
+      <div class="channel__header">
+        <h1 class="channel__title">Каналы отправки уведомлений</h1>
+        <span>Панель управления / Каналы отправки </span>
+      </div>
+        <div class="channel__buttons">
+        <my-delete @click="removeSelectedChannels">Удалить</my-delete>
+        <!-- <router-link to="/channels/create"> -->
+        <my-create @click="$router.push('/channels/create')">Создать</my-create>
+        <!-- </router-link> -->
+      </div>
       <table>
         <thead>
           <tr>
@@ -67,12 +72,13 @@ export default {
 
 <style scoped>
 table {
-  width: 100%;
+  width: 98%;
   border-top: 7px solid rgb(218, 218, 218);
   border-collapse: collapse;
   text-align: center;
   margin-bottom: 20px;
   border: 1px solid #dddddd;
+  margin: auto;
 }
 
 td {
@@ -85,6 +91,7 @@ th {
   text-align: left;
   padding: 10px;
   border: 1px solid rgb(218, 218, 218);
+  text-transform: uppercase;
 }
 
 .wrapper__channels {
@@ -116,6 +123,26 @@ th {
 }
 
 .channel__action {
-  width: 150px;
+  width: 120px;
+}
+
+.channel__buttons {
+  display: flex;
+  margin-left: auto;
+  float: right;
+  margin-right: 10px;
+  gap: 14px;
+  background-color: white;
+  padding: 12px 0px;
+}
+
+.channel__header {
+  display: flex;
+  justify-content: space-between;
+  background-color: rgb(241, 241, 241);
+  padding-left: 16px;
+  padding-right: 14px;
+  padding-bottom: 14px;
+  padding-top: 14px;
 }
 </style>

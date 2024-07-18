@@ -1,10 +1,15 @@
 ﻿<template>
-  <div class="wrapper__subscribers">
-    <h1>Список подписчиков на уведомления</h1>
-    <button @click="removeSelectedSubscribers">Удалить</button>
-    <router-link to="/subscribers/create">
-    <button>Создать</button>
-    </router-link>
+    <div class="wrapper__subscribers">
+      <div class="subscriber__header">
+        <h1 class="subscriber__title">Список подписчиков</h1>
+        <span>Панель управления / Каналы отправки </span>
+      </div>
+        <div class="subscriber__buttons">
+        <my-delete @click="removeSelectedSubscribers">Удалить</my-delete>
+        <!-- <router-link to="/channels/create"> -->
+        <my-create @click="$router.push('/subscribers/create')">Создать</my-create>
+        <!-- </router-link> -->
+      </div>
     <table>
       <thead>
         <tr>
@@ -66,55 +71,78 @@ methods: {
 
 <style scoped>
 table {
-width: 100%;
-border-top: 7px solid rgb(218, 218, 218);
-border-collapse: collapse;
-text-align: center;
-margin-bottom: 20px;
-border: 1px solid #dddddd;
+  width: 98%;
+  border-top: 7px solid rgb(218, 218, 218);
+  border-collapse: collapse;
+  text-align: center;
+  margin-bottom: 20px;
+  border: 1px solid #dddddd;
+  margin: auto;
 }
 
 td {
-text-align: left;
-padding: 10px;
-border: 1px solid rgb(218, 218, 218);
+  text-align: left;
+  padding: 10px;
+  border: 1px solid rgb(218, 218, 218);
 }
 
 th {
-text-align: left;
-padding: 10px;
-border: 1px solid rgb(218, 218, 218);
+  text-align: left;
+  padding: 10px;
+  border: 1px solid rgb(218, 218, 218);
+  text-transform: uppercase;
 }
 
 .wrapper__subscribers {
-background-color: white;
+  background-color: white;
 }
 
-.subscribers__checkbox {
-width: 36px;
+
+.subscriber__checkbox {
+  width: 36px;
 }
 
 .subscriber__id {
-width: 40px;
+  width: 40px;
 }
-
+/* 
 .subscriber__name {
-width: 150px;
-}
+  width: 450px;
+} */
 
 .subscriber__code {
-width: 200px;
+  width: 200px;
 }
 
-.subscriber__tg {
-width: 200px;
+.subscriber__mailing {
+  width: 200px;
 }
 
 .subscriber__status {
-width: 100px;
+  width: 100px;
 }
 
-.subscriberl__action {
-width: 150px;
+.subscriber__action {
+  width: 120px;
+}
+
+.subscriber__buttons {
+  display: flex;
+  margin-left: auto;
+  float: right;
+  margin-right: 10px;
+  gap: 14px;
+  background-color: white;
+  padding: 12px 0px;
+}
+
+.subscriber__header {
+  display: flex;
+  justify-content: space-between;
+  background-color: rgb(241, 241, 241);
+  padding-left: 16px;
+  padding-right: 14px;
+  padding-bottom: 14px;
+  padding-top: 14px;
 }
 </style>
